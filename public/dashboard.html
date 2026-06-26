@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+  <meta name="theme-color" content="#5865f2">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>Discord Ads - Dashboard</title>
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -71,22 +74,22 @@
       <form id="createAdForm" class="ad-form">
         <div class="form-group">
           <label for="adTitle">Ad Title:</label>
-          <input type="text" id="adTitle" placeholder="My awesome ad" required>
+          <input type="text" id="adTitle" name="adTitle" placeholder="My awesome ad" required>
         </div>
 
         <div class="form-group">
           <label for="adMessage">Discord Message:</label>
-          <textarea id="adMessage" placeholder="The message to post to Discord channels..." rows="6" required></textarea>
+          <textarea id="adMessage" name="adMessage" placeholder="The message to post to Discord channels..." rows="6" required></textarea>
         </div>
 
         <div class="form-group">
           <label for="adDescription">Ad Description:</label>
-          <textarea id="adDescription" placeholder="Optional note for your own tracking" rows="3"></textarea>
+          <textarea id="adDescription" name="adDescription" placeholder="Optional note for your own tracking" rows="3"></textarea>
         </div>
 
         <div class="form-group">
           <label for="discordToken">Discord User Token:</label>
-          <input type="password" id="discordToken" placeholder="Your Discord user token (hidden)" required>
+          <input type="password" id="discordToken" name="discordToken" placeholder="Your Discord user token (hidden)" required>
           <small>⚠️ Keep this secret! Never share your token.</small>
         </div>
 
@@ -99,12 +102,12 @@
         <div class="form-row">
           <div class="form-group">
             <label for="delayChannels">Delay Between Channels (seconds):</label>
-            <input type="number" id="delayChannels" value="75" min="1">
+            <input type="number" id="delayChannels" name="delayChannels" value="75" min="1">
           </div>
 
           <div class="form-group">
             <label for="delayCycles">Delay Between Cycles (seconds):</label>
-            <input type="number" id="delayCycles" value="300" min="1">
+            <input type="number" id="delayCycles" name="delayCycles" value="300" min="1">
           </div>
         </div>
 
@@ -131,22 +134,22 @@
       <form id="editAdForm" class="ad-form">
         <div class="form-group">
           <label for="editTitle">Ad Title:</label>
-          <input type="text" id="editTitle" required>
+          <input type="text" id="editTitle" name="editTitle" required>
         </div>
 
         <div class="form-group">
           <label for="editMessage">Discord Message:</label>
-          <textarea id="editMessage" rows="6" required></textarea>
+          <textarea id="editMessage" name="editMessage" rows="6" required></textarea>
         </div>
 
         <div class="form-group">
           <label for="editDescription">Ad Description:</label>
-          <textarea id="editDescription" rows="3" placeholder="Optional note for your own tracking"></textarea>
+          <textarea id="editDescription" name="editDescription" rows="3" placeholder="Optional note for your own tracking"></textarea>
         </div>
 
         <div class="form-group">
           <label for="editToken">Discord User Token:</label>
-          <input type="password" id="editToken" required>
+          <input type="password" id="editToken" name="editToken" required>
           <small>⚠️ Leave blank to keep current token</small>
         </div>
 
@@ -159,12 +162,12 @@
         <div class="form-row">
           <div class="form-group">
             <label for="editDelayChannels">Delay Between Channels (seconds):</label>
-            <input type="number" id="editDelayChannels" min="1">
+            <input type="number" id="editDelayChannels" name="editDelayChannels" min="1">
           </div>
 
           <div class="form-group">
             <label for="editDelayCycles">Delay Between Cycles (seconds):</label>
-            <input type="number" id="editDelayCycles" min="1">
+            <input type="number" id="editDelayCycles" name="editDelayCycles" min="1">
           </div>
         </div>
 
