@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Discord Ads - Admin Panel</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <div class="brand">Admin Panel</div>
+      <div class="nav-links">
+        <a href="/dashboard" class="nav-btn">← Back to Dashboard</a>
+        <a href="/logout" class="nav-btn logout-btn">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="admin-tabs">
+      <button class="tab-btn active" onclick="switchAdminTab(event, 'all-ads')">All Advertisements</button>
+      <button class="tab-btn" onclick="switchAdminTab(event, 'all-users')">All Users</button>
+    </div>
+
+    <!-- All Ads Tab -->
+    <div id="all-ads" class="admin-tab-content active">
+      <h2>All Advertisements</h2>
+      <div class="dashboard-controls admin-controls">
+        <input id="adminSearch" type="text" class="search-input" placeholder="Search by ad ID, username, title, or status...">
+        <div class="filter-panel">
+          <label for="adminStatusFilter">Status</label>
+          <select id="adminStatusFilter" class="filter-select">
+            <option value="">All</option>
+            <option value="running">Running</option>
+            <option value="stopped">Paused</option>
+          </select>
+        </div>
+      </div>
+      <div id="adminAdsList" class="ads-list"></div>
+    </div>
+
+    <!-- All Users Tab -->
+    <div id="all-users" class="admin-tab-content">
+      <h2>All Users</h2>
+      <div id="adminUsersList" class="users-list"></div>
+    </div>
+  </div>
+
+  <!-- Admin Edit Modal -->
+  <div id="adminEditModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeAdminEditModal()">&times;</span>
+      <h3>Edit Advertisement (Admin)</h3>
+      <form id="adminEditForm" class="ad-form">
+        <div class="form-group">
+          <label for="adminEditTitle">Ad Title:</label>
+          <input type="text" id="adminEditTitle" required>
+        </div>
+
+        <div class="form-group">
+          <label for="adminEditMessage">Discord Message:</label>
+          <textarea id="adminEditMessage" rows="6" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="adminEditToken">Discord User Token:</label>
+          <input type="password" id="adminEditToken" required>
+        </div>
+
+        <div class="form-group">
+          <label>Discord Channels:</label>
+          <div id="adminEditChannelsList" class="channels-list"></div>
+          <button type="button" onclick="addAdminEditChannelInput()" class="btn btn-secondary">+ Add Channel</button>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="adminEditDelayChannels">Delay Between Channels (seconds):</label>
+            <input type="number" id="adminEditDelayChannels" min="1">
+          </div>
+
+          <div class="form-group">
+            <label for="adminEditDelayCycles">Delay Between Cycles (seconds):</label>
+            <input type="number" id="adminEditDelayCycles" min="1">
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Changes (Admin)</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="/ui.js"></script>
+  <script src="/admin.js"></script>
+</body>
+</html>

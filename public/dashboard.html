@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Discord Ads - Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <div class="brand">Discord Ads</div>
+      <div class="nav-links">
+        <a href="#" onclick="switchTab(event, 'my-ads')" class="nav-btn active" data-tab="my-ads">My Ads</a>
+        <a href="#" onclick="switchTab(event, 'create-ad')" class="nav-btn" data-tab="create-ad">Create Ad</a>
+        <a href="#" onclick="switchTab(event, 'manage-ads')" class="nav-btn" data-tab="manage-ads">Manage Ads</a>
+        <a href="https://discord.gg/aaa" target="_blank" rel="noreferrer" class="social-link" aria-label="Join our Discord server">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20.317 4.492a18.65 18.65 0 0 0-4.603-1.42 13.56 13.56 0 0 0-.603.99 17.16 17.16 0 0 0-5.16 0 12.44 12.44 0 0 0-.607-.99A18.72 18.72 0 0 0 3.683 4.492C1.523 8.128.88 11.68.999 15.205a18.92 18.92 0 0 0 5.82 2.94c.468-.64.883-1.317 1.238-2.03a12.27 12.27 0 0 1-1.95-.94l.49-.37c3.8 1.76 7.92 1.76 11.72 0l.49.37a12.03 12.03 0 0 1-1.95.94c.355.713.77 1.39 1.238 2.03a18.92 18.92 0 0 0 5.82-2.94c.153-3.9-.523-7.45-2.683-10.713ZM8.9 13.01c-1.13 0-2.06-1.04-2.06-2.32 0-1.28.91-2.32 2.06-2.32 1.15 0 2.06 1.04 2.06 2.32 0 1.28-.91 2.32-2.06 2.32Zm6.2 0c-1.13 0-2.06-1.04-2.06-2.32 0-1.28.91-2.32 2.06-2.32 1.15 0 2.06 1.04 2.06 2.32 0 1.28-.91 2.32-2.06 2.32Z"/>
+          </svg>
+        </a>
+        <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()" aria-pressed="false">🌙 Dark</button>
+        <span id="adminLink" style="display: none;">
+          <a href="/admin" class="nav-btn admin-btn">Admin Panel</a>
+        </span>
+        <a href="/logout" class="nav-btn logout-btn">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="hero-panel">
+    <div class="container hero-content">
+      <div>
+        <p class="hero-tag">Discord Auto Advertise</p>
+        <h1 class="hero-title">Run ad cycles with multiple features</h1>
+        <p class="hero-text">Manage your ads using the dashboard</p>
+      </div>
+      <div class="hero-actions">
+        <p class="hero-description">Use the tabs above to navigate your dashboard, create new ads, and manage active cycles.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- My Ads Tab -->
+    <div id="my-ads" class="tab-content active">
+      <h2>My Advertisements</h2>
+      <div class="dashboard-controls">
+        <input id="adSearch" type="text" class="search-input" placeholder="Search ads by title, status, or description...">
+        <div class="filter-panel">
+          <label for="statusFilter">Status</label>
+          <select id="statusFilter" class="filter-select">
+            <option value="">All</option>
+            <option value="running">Running</option>
+            <option value="stopped">Paused</option>
+          </select>
+        </div>
+        <div class="dashboard-actions">
+          <button class="btn btn-secondary" onclick="bulkStartAll()">Start All</button>
+          <button class="btn btn-secondary" onclick="bulkStopAll()">Stop All</button>
+        </div>
+      </div>
+
+      <div id="dashboardStats" class="stats-grid"></div>
+      <div id="myAdsList" class="ads-list"></div>
+    </div>
+
+    <!-- Create Ad Tab -->
+    <div id="create-ad" class="tab-content">
+      <h2>Create New Advertisement</h2>
+      <form id="createAdForm" class="ad-form">
+        <div class="form-group">
+          <label for="adTitle">Ad Title:</label>
+          <input type="text" id="adTitle" placeholder="My awesome ad" required>
+        </div>
+
+        <div class="form-group">
+          <label for="adMessage">Discord Message:</label>
+          <textarea id="adMessage" placeholder="The message to post to Discord channels..." rows="6" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="adDescription">Ad Description:</label>
+          <textarea id="adDescription" placeholder="Optional note for your own tracking" rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="discordToken">Discord User Token:</label>
+          <input type="password" id="discordToken" placeholder="Your Discord user token (hidden)" required>
+          <small>⚠️ Keep this secret! Never share your token.</small>
+        </div>
+
+        <div class="form-group">
+          <label>Discord Channels:</label>
+          <div id="channelsList" class="channels-list"></div>
+          <button type="button" onclick="addChannelInput()" class="btn btn-secondary">+ Add Channel</button>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="delayChannels">Delay Between Channels (seconds):</label>
+            <input type="number" id="delayChannels" value="75" min="1">
+          </div>
+
+          <div class="form-group">
+            <label for="delayCycles">Delay Between Cycles (seconds):</label>
+            <input type="number" id="delayCycles" value="300" min="1">
+          </div>
+        </div>
+
+        <div class="ad-hint-box">
+          <p><strong>Pro Tip:</strong> Use short messages and spread channels for better delivery.</p>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-large">Create Advertisement</button>
+      </form>
+    </div>
+
+    <!-- Manage Ads Tab -->
+    <div id="manage-ads" class="tab-content">
+      <h2>Manage Advertisements</h2>
+      <div id="manageAdsList" class="ads-list"></div>
+    </div>
+  </div>
+
+  <!-- Edit Ad Modal -->
+  <div id="editModal" class="modal">
+    <div class="modal-content modal-panel">
+      <span class="close" onclick="closeEditModal()">&times;</span>
+      <h3>Edit Advertisement</h3>
+      <form id="editAdForm" class="ad-form">
+        <div class="form-group">
+          <label for="editTitle">Ad Title:</label>
+          <input type="text" id="editTitle" required>
+        </div>
+
+        <div class="form-group">
+          <label for="editMessage">Discord Message:</label>
+          <textarea id="editMessage" rows="6" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="editDescription">Ad Description:</label>
+          <textarea id="editDescription" rows="3" placeholder="Optional note for your own tracking"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="editToken">Discord User Token:</label>
+          <input type="password" id="editToken" required>
+          <small>⚠️ Leave blank to keep current token</small>
+        </div>
+
+        <div class="form-group">
+          <label>Discord Channels:</label>
+          <div id="editChannelsList" class="channels-list"></div>
+          <button type="button" onclick="addEditChannelInput()" class="btn btn-secondary">+ Add Channel</button>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="editDelayChannels">Delay Between Channels (seconds):</label>
+            <input type="number" id="editDelayChannels" min="1">
+          </div>
+
+          <div class="form-group">
+            <label for="editDelayCycles">Delay Between Cycles (seconds):</label>
+            <input type="number" id="editDelayCycles" min="1">
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Message Logs Modal -->
+  <div id="logsModal" class="modal">
+    <div class="modal-content modal-panel">
+      <span class="close" onclick="closeLogsModal()">&times;</span>
+      <div class="modal-header">
+        <div>
+          <h3 id="logsTitle">Message Logs</h3>
+          <p id="logsStatus" class="logs-status">Live updates enabled</p>
+        </div>
+        <button class="btn btn-small btn-secondary" onclick="refreshLogs()">Refresh now</button>
+        <button class="btn btn-small btn-secondary" onclick="copyLogs()">Copy log text</button>
+      </div>
+      <div id="logsList" class="logs-list"></div>
+    </div>
+  </div>
+
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="/ui.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
