@@ -98,6 +98,8 @@ function switchTab(arg1, arg2) {
     loadMyAds();
   } else if (tabName === 'manage-ads') {
     loadManageAds();
+  } else if (tabName === 'account') {
+    loadAccountInfo();
   }
 }
 
@@ -594,4 +596,54 @@ function escapeHtml(text) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
+}
+
+// Account Tab Functions
+async function loadAccountInfo() {
+  try {
+    const response = await fetch('/api/user/profile');
+    if (!response.ok) throw new Error('Failed to load profile');
+    
+    const data = await response.json();
+    const user = data.user;
+    const stats = data.stats;
+
+    // Update profile info
+    document.getElementById('profileUsername').textContent = user.username;
+    document.getElementById('profileType').textContent = user.is_admin ? 'Admin' : 'Regular User';
+    document.getElementById('profileCreated').textContent = new Date(user.created_at).toLocaleDateString();
+
+    // Update stats
+    document.getElementById('statTotalAds').textContent = stats.totalAds;
+    document.getElementById('statRunningAds').textContent = stats.runningAds;
+    document.getElementById('statTotalMessages').textContent = stats.totalMessages;
+    document.getElementById('statSuccessMessages').textContent = stats.successMessages;
+    document.getElementById('statFailedMessages').textContent = stats.failedMessages;
+
+    // Calculate success rate
+    const successRate = stats.totalMessages > 0 
+      ? Math.round((stats.successMessages / stats.totalMessages) * 100) 
+      : 0;
+    document.getElementById('statSuccessRate').textContent = successRate + '%';
+
+  } catch (error) {
+    console.error('Error loading account info:', error);
+    showToast('Error loading account information', 'danger');
+  }
+}
+
+function changePassword() {
+  showPopup({
+    title: 'Change Password',
+    message: 'Password change feature coming soon! For now, please contact support.',
+    type: 'info'
+  });
+}
+
+function logoutAccount() {
+  confirmDialog('Are you sure you want to logout?').then(confirmed => {
+    if (confirmed) {
+      window.location.href = '/logout';
+    }
+  });
 }

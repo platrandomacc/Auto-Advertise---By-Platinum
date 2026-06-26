@@ -48,6 +48,12 @@
   </div>
 
   <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Clear form on page load
+      document.getElementById('signupForm').reset();
+      document.getElementById('errorMessage').textContent = '';
+    });
+
     document.getElementById('signupForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const username = document.getElementById('username').value;
@@ -55,9 +61,19 @@
       const password = document.getElementById('password').value;
       const confirmPassword = document.getElementById('confirmPassword').value;
       const errorMessage = document.getElementById('errorMessage');
+      
+      // Clear previous errors
+      errorMessage.textContent = '';
 
       if (password !== confirmPassword) {
         errorMessage.textContent = 'Passwords do not match';
+        errorMessage.style.display = 'block';
+        return;
+      }
+
+      if (password.length < 6) {
+        errorMessage.textContent = 'Password must be at least 6 characters';
+        errorMessage.style.display = 'block';
         return;
       }
 
@@ -73,12 +89,23 @@
         const data = await response.json();
 
         if (response.ok) {
-          window.location.href = data.redirect;
+          // Show success message
+          document.getElementById('signupForm').style.display = 'none';
+          errorMessage.textContent = '✓ Account created successfully! Redirecting to login...';
+          errorMessage.style.display = 'block';
+          errorMessage.style.borderLeftColor = 'var(--success-color)';
+          errorMessage.style.color = 'var(--success-color)';
+          errorMessage.style.backgroundColor = 'rgba(87, 242, 135, 0.12)';
+          setTimeout(() => {
+            window.location.href = data.redirect;
+          }, 1500);
         } else {
           errorMessage.textContent = data.error || 'Sign up failed';
+          errorMessage.style.display = 'block';
         }
       } catch (error) {
         errorMessage.textContent = 'An error occurred. Please try again.';
+        errorMessage.style.display = 'block';
       }
     });
   </script>

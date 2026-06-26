@@ -38,11 +38,20 @@
   </div>
 
   <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Clear form on page load
+      document.getElementById('loginForm').reset();
+      document.getElementById('errorMessage').textContent = '';
+    });
+
     document.getElementById('loginForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const username = document.getElementById('username').value;
       const password = document.getElementById('password').value;
       const errorMessage = document.getElementById('errorMessage');
+      
+      // Clear previous errors
+      errorMessage.textContent = '';
 
       try {
         const response = await fetch('/login', {
@@ -59,9 +68,11 @@
           window.location.href = data.redirect;
         } else {
           errorMessage.textContent = data.error || 'Login failed';
+          errorMessage.style.display = 'block';
         }
       } catch (error) {
         errorMessage.textContent = 'An error occurred. Please try again.';
+        errorMessage.style.display = 'block';
       }
     });
   </script>

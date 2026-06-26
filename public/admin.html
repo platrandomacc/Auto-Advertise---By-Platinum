@@ -58,17 +58,17 @@
       <form id="adminEditForm" class="ad-form">
         <div class="form-group">
           <label for="adminEditTitle">Ad Title:</label>
-          <input type="text" id="adminEditTitle" required>
+          <input type="text" id="adminEditTitle" name="adminEditTitle" required>
         </div>
 
         <div class="form-group">
           <label for="adminEditMessage">Discord Message:</label>
-          <textarea id="adminEditMessage" rows="6" required></textarea>
+          <textarea id="adminEditMessage" name="adminEditMessage" rows="6" required></textarea>
         </div>
 
         <div class="form-group">
           <label for="adminEditToken">Discord User Token:</label>
-          <input type="password" id="adminEditToken" required>
+          <input type="password" id="adminEditToken" name="adminEditToken" required>
         </div>
 
         <div class="form-group">
@@ -80,12 +80,12 @@
         <div class="form-row">
           <div class="form-group">
             <label for="adminEditDelayChannels">Delay Between Channels (seconds):</label>
-            <input type="number" id="adminEditDelayChannels" min="1">
+            <input type="number" id="adminEditDelayChannels" name="adminEditDelayChannels" min="1">
           </div>
 
           <div class="form-group">
             <label for="adminEditDelayCycles">Delay Between Cycles (seconds):</label>
-            <input type="number" id="adminEditDelayCycles" min="1">
+            <input type="number" id="adminEditDelayCycles" name="adminEditDelayCycles" min="1">
           </div>
         </div>
 

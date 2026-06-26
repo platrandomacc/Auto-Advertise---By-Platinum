@@ -17,6 +17,7 @@
         <a href="#" onclick="switchTab(event, 'my-ads')" class="nav-btn active" data-tab="my-ads">My Ads</a>
         <a href="#" onclick="switchTab(event, 'create-ad')" class="nav-btn" data-tab="create-ad">Create Ad</a>
         <a href="#" onclick="switchTab(event, 'manage-ads')" class="nav-btn" data-tab="manage-ads">Manage Ads</a>
+        <a href="#" onclick="switchTab(event, 'account')" class="nav-btn" data-tab="account">👤 Account</a>
         <a href="https://discord.gg/aaa" target="_blank" rel="noreferrer" class="social-link" aria-label="Join our Discord server">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M20.317 4.492a18.65 18.65 0 0 0-4.603-1.42 13.56 13.56 0 0 0-.603.99 17.16 17.16 0 0 0-5.16 0 12.44 12.44 0 0 0-.607-.99A18.72 18.72 0 0 0 3.683 4.492C1.523 8.128.88 11.68.999 15.205a18.92 18.92 0 0 0 5.82 2.94c.468-.64.883-1.317 1.238-2.03a12.27 12.27 0 0 1-1.95-.94l.49-.37c3.8 1.76 7.92 1.76 11.72 0l.49.37a12.03 12.03 0 0 1-1.95.94c.355.713.77 1.39 1.238 2.03a18.92 18.92 0 0 0 5.82-2.94c.153-3.9-.523-7.45-2.683-10.713ZM8.9 13.01c-1.13 0-2.06-1.04-2.06-2.32 0-1.28.91-2.32 2.06-2.32 1.15 0 2.06 1.04 2.06 2.32 0 1.28-.91 2.32-2.06 2.32Zm6.2 0c-1.13 0-2.06-1.04-2.06-2.32 0-1.28.91-2.32 2.06-2.32 1.15 0 2.06 1.04 2.06 2.32 0 1.28-.91 2.32-2.06 2.32Z"/>
@@ -123,6 +124,69 @@
     <div id="manage-ads" class="tab-content">
       <h2>Manage Advertisements</h2>
       <div id="manageAdsList" class="ads-list"></div>
+    </div>
+
+    <!-- Account Tab -->
+    <div id="account" class="tab-content">
+      <h2>Account Settings</h2>
+      <div class="account-container">
+        <div class="account-panel">
+          <h3>Profile Information</h3>
+          <div class="profile-info">
+            <div class="info-row">
+              <label>Username:</label>
+              <span id="profileUsername" class="info-value">-</span>
+            </div>
+            <div class="info-row">
+              <label>Account Type:</label>
+              <span id="profileType" class="info-value">Regular User</span>
+            </div>
+            <div class="info-row">
+              <label>Member Since:</label>
+              <span id="profileCreated" class="info-value">-</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="account-panel">
+          <h3>Account Statistics</h3>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-label">Total Ads</div>
+              <div class="stat-value" id="statTotalAds">0</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Running Ads</div>
+              <div class="stat-value" id="statRunningAds">0</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Messages Posted</div>
+              <div class="stat-value" id="statTotalMessages">0</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Successful</div>
+              <div class="stat-value" id="statSuccessMessages">0</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Failed</div>
+              <div class="stat-value" id="statFailedMessages">0</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Success Rate</div>
+              <div class="stat-value" id="statSuccessRate">0%</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="account-panel">
+          <h3>Actions</h3>
+          <div class="account-actions">
+            <button class="btn btn-secondary" onclick="loadAccountInfo()">Refresh Stats</button>
+            <button class="btn btn-danger" onclick="changePassword()">Change Password</button>
+            <button class="btn btn-danger" onclick="logoutAccount()">Logout</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 

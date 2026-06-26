@@ -379,6 +379,59 @@ app.get('/dashboard', isAuthenticated, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
 });
 
+// API: Get user profile
+app.get('/api/user/profile', isAuthenticated, async (req, res) => {
+  try {
+    const user = await dbGet(
+      'SELECT id, username, is_admin, created_at FROM users WHERE id = ?',
+      [req.session.userId]
+    );
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Get user stats
+    const totalAds = await dbGet(
+      'SELECT COUNT(*) as count FROM advertisements WHERE user_id = ?',
+      [req.session.userId]
+    );
+
+    const runningAds = await dbGet(
+      'SELECT COUNT(*) as count FROM advertisements WHERE user_id = ? AND cycle_status = ?',
+      [req.session.userId, 'running']
+    );
+
+    const totalMessages = await dbGet(
+      'SELECT COUNT(*) as count FROM message_logs WHERE user_id = ?',
+      [req.session.userId]
+    );
+
+    const successMessages = await dbGet(
+      'SELECT COUNT(*) as count FROM message_logs WHERE user_id = ? AND status = ?',
+      [req.session.userId, 'success']
+    );
+
+    const failedMessages = await dbGet(
+      'SELECT COUNT(*) as count FROM message_logs WHERE user_id = ? AND status = ?',
+      [req.session.userId, 'failed']
+    );
+
+    res.json({
+      user: user,
+      stats: {
+        totalAds: totalAds.count || 0,
+        runningAds: runningAds.count || 0,
+        totalMessages: totalMessages.count || 0,
+        successMessages: successMessages.count || 0,
+        failedMessages: failedMessages.count || 0
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch profile' });
+  }
+});
+
 // API: Get user's ads
 app.get('/api/my-ads', isAuthenticated, async (req, res) => {
   try {
