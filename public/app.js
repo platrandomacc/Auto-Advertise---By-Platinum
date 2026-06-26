@@ -6,10 +6,12 @@ let isAdminUser = false;
 // Initialize dashboard
 document.addEventListener('DOMContentLoaded', async () => {
   // Check if user is admin (Platinum)
-  try {
-    await checkAdminStatus();
-  } catch (error) {
-    console.error('Error:', error);
+  if (document.getElementById('myAdsList')) {
+    try {
+      await checkAdminStatus();
+    } catch (error) {
+      console.error('Error checking admin status:', error);
+    }
   }
 
   // Load my ads
@@ -630,14 +632,6 @@ async function loadAccountInfo() {
     console.error('Error loading account info:', error);
     showToast('Error loading account information', 'danger');
   }
-}
-
-function changePassword() {
-  showPopup({
-    title: 'Change Password',
-    message: 'Password change feature coming soon! For now, please contact support.',
-    type: 'info'
-  });
 }
 
 function logoutAccount() {
